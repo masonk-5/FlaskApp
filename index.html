@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Data Visualization</title>
+</head>
+<body>
+    <h1>Stock Data Visualization</h1>
+    <form action="/get_stock_data" method="post">
+        <label for="symbol">Stock Symbol:</label>
+        <input type="text" id="symbol" name="symbol" required><br>
+
+        <label for="chart_type">Chart Type:</label>
+        <select id="chart_type" name="chart_type">
+            <option value="line">Line</option>
+            <option value="bar">Bar</option>
+        </select><br>
+
+        <label for="time_series">Time Series:</label>
+        <select id="time_series" name="time_series">
+            <option value="TIME_SERIES_DAILY">Daily</option>
+            <option value="TIME_SERIES_WEEKLY">Weekly</option>
+            <option value="TIME_SERIES_MONTHLY">Monthly</option>
+        </select><br>
+
+        <label for="start_date">Start Date (YYYY-MM-DD):</label>
+        <input type="date" id="start_date" name="start_date" required><br>
+
+        <label for="end_date">End Date (YYYY-MM-DD):</label>
+        <input type="date" id="end_date" name="end_date" required><br>
+
+        <input type="submit" value="Generate Chart">
+    </form>
+</body>
+</html>
