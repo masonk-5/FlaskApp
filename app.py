@@ -7,7 +7,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-API_KEY = '5EEEJXY5G114MLPC'  # Replace with your Alpha Vantage API Key
+API_KEY = '5EEEJXY5G114MLPC'  
 
 @app.route('/')
 def index():
@@ -21,23 +21,19 @@ def get_stock_data():
     start_date = request.form['start_date']
     end_date = request.form['end_date']
     
-    # Validate dates
     if start_date >= end_date:
         return "Error: End date must be after start date."
 
-    # Fetch stock data from Alpha Vantage API
     api_url = f'https://www.alphavantage.co/query?function={time_series}&symbol={symbol}&apikey={API_KEY}'
     response = requests.get(api_url)
     data = response.json()
-
-    # Process data and filter by date range
+    
     time_series_key = list(data.keys())[1]  # Adjust based on the response format
     stock_data = {date: values for date, values in data[time_series_key].items() if start_date <= date <= end_date}
     
     if not stock_data:
         return "Error: No data available for this date range."
-
-    # Plot the data
+        
     dates = list(stock_data.keys())
     prices = [float(values['4. close']) for values in stock_data.values()]
     dates.reverse()
@@ -53,15 +49,13 @@ def get_stock_data():
     plt.ylabel('Closing Price')
     plt.title(f'{symbol} Stock Data')
     plt.legend()
-
-    # Save the plot to a bytes buffer
+    
     buffer = io.BytesIO()
     plt.savefig(buffer, format='png')
     buffer.seek(0)
     image_png = buffer.getvalue()
     buffer.close()
 
-    # Encode image to display in browser
     graph = base64.b64encode(image_png).decode('utf-8')
     return render_template('result.html', graph=graph)
 
